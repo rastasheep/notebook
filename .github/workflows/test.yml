@@ -1,0 +1,117 @@
+name: Test
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Read ./versions
+      run: |
+        . versions
+        echo "elixir=$elixir" >> $GITHUB_ENV
+        echo "otp=$otp" >> $GITHUB_ENV
+
+    - name: Set up Elixir
+      uses: erlef/setup-beam@0a541161e47ec43ccbd9510053c5f336ca76c2a2 # v1.17.6
+      with:
+        otp-version: ${{ env.otp }}
+        elixir-version: ${{ env.elixir }}
+
+    - name: Cache Mix
+      uses: actions/cache@v3
+      env:
+        cache-name: deps-v1
+      with:
+        path: |
+          deps
+          _build
+        key: ${{ runner.os }}-mix-${{ env.elixir }}-${{ env.otp }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-${{ env.elixir }}-${{ env.otp }}-
+
+    # Force a full recompile only on builds that are retried.
+    - name: Force a full recompile
+      if: github.run_attempt != '1'
+      run: |
+        mix deps.clean --all
+        mix clean
+      shell: sh
+
+    - name: Install dependencies
+      run: mix deps.get
+
+    - name: Compiles without warnings
+      run: mix compile --warnings-as-errors
+
+    - name: Run tests
+      run: mix test --warnings-as-errors --cover --export-coverage default
+
+    - name: Run test coverage
+      run: mix test.coverage
+
+    - name: Check Formatting
+      run: mix format --check-formatted
+
+  draft_release:
+    name: Draft release
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#   build:
+#     name: Build and publish image
+#     runs-on: ubuntu-latest
+#     needs: test
+#     if: github.ref == 'refs/heads/main'
+#
+#     permissions:
+#       contents: write
+#       packages: write
+#
+#     env:
+#       REGISTRY: ghcr.io
+#       IMAGE_NAME: ${{ github.repository }}
+#
+#     steps:
+#       - uses: actions/checkout@v4
+#
+#       - name: Log in to the Container registry
+#         uses: docker/login-action@v3
+#         with:
+#           registry: ${{ env.REGISTRY }}
+#           username: ${{ github.actor }}
+#           password: ${{ secrets.GITHUB_TOKEN }}
+#
+#       - name: Extract metadata (tags, labels) for Docker
+#         id: meta
+#         uses: docker/metadata-action@v5
+#         with:
+#           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+#           tags: 'type=raw,value=latest,enable={{is_default_branch}}'
+#
+#       - name: Build and push Docker image
+#         uses: docker/build-push-action@v5
+#         with:
+#           context: .
+#           push: true
+#           tags: ${{ steps.meta.outputs.tags }}
+#           labels: ${{ steps.meta.outputs.labels }}
+
