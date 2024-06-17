@@ -15,10 +15,18 @@ module.exports = {
     extend: {
       colors: {
         brand: "#FD4F00",
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: '80ch',
+          }
+        }
       }
     },
   },
   plugins: [
+    require('@tailwindcss/typography'),
     require("@tailwindcss/forms"),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:

@@ -8,7 +8,9 @@
 import Config
 
 config :notebook,
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  notebook_path: "~/.notebook/default",
+  notes_folder: "notes"
 
 # Configures the endpoint
 config :notebook, NotebookWeb.Endpoint,
