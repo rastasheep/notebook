@@ -18,6 +18,8 @@ defmodule NotebookWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/notes/:id", NoteLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
