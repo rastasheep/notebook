@@ -12,10 +12,7 @@ defmodule NotebookWeb.NoteLive.Show do
   def handle_params(%{"id" => id}, _, socket) do
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:page_title, id)
      |> assign(:note, Notes.get_note!(:html, id))}
   end
-
-  defp page_title(:show), do: "Show Note"
-  defp page_title(:edit), do: "Edit Note"
 end

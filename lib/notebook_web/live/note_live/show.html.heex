@@ -1,5 +1,16 @@
-<div class="relative w-full px-6 py-12 bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 md:max-w-6xl md:mx-auto lg:pt-16 lg:pb-28">
-  <article class="mt-8 prose prose-slate mx-auto lg:prose-lg">
+<div class="fixed z-10 flex items-center bottom-2 left-1/2 transform -translate-x-1/2 p-2 bg-white/90 dark:bg-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700 rounded-xl">
+  <div class="pl-2 border-r border-zinc-300 flex items-center">
+    <%= @page_title %>
+
+    <.link href="#top" class="mx-2 flex items-center">
+      <.icon name="hero-arrow-up-mini" />
+    </.link>
+  </div>
+  <.icon name="hero-magnifying-glass-mini" class="mx-2" />
+</div>
+
+<div class="relative w-full p-6 md:max-w-6xl md:mx-auto">
+  <article class="mt-8 mx-auto prose prose-zinc dark:prose-invert">
     <%= raw(@note) %>
   </article>
 </div>
