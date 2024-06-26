@@ -5,6 +5,12 @@ defmodule Notebook.FileSystem do
     |> File.read!()
   end
 
+  def list(path) do
+    path
+    |> Path.join("**/*.*")
+    |> Path.wildcard()
+  end
+
   defp ensure_extension(file_name, extension) do
     case Path.extname(file_name) do
       "" -> file_name <> extension

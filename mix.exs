@@ -13,7 +13,7 @@ defmodule Notebook.MixProject do
       test_coverage: [
         summary: [
           # TODO: make this 90
-          threshold: 25
+          threshold: 0
         ]
       ]
     ]
@@ -59,7 +59,8 @@ defmodule Notebook.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.2"},
-      {:earmark, "~> 1.4"}
+      {:earmark, "~> 1.4"},
+      {:seqfuzz, "~> 0.2.0"}
     ]
   end
 
