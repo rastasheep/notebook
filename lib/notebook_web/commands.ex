@@ -3,8 +3,7 @@ defmodule NotebookWeb.Commands do
 
   import Phoenix.LiveView
 
-  alias Notebook.Config
-  alias Notebook.FileSystem
+  alias Notebook.Notes
 
   def score(string) do
     list_commands()
@@ -29,10 +28,9 @@ defmodule NotebookWeb.Commands do
   end
 
   defp open_note_commands() do
-    Config.notes_path()
-    |> FileSystem.list()
-    |> Enum.map(fn path ->
-      {:nav_to, name: String.replace(path, "#{Config.notes_path()}/", ""), icon: "hero-document"}
+    Notes.list_notes()
+    |> Enum.map(fn {name, _path} ->
+      {:nav_to, name: name, icon: "hero-document"}
     end)
   end
 

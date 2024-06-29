@@ -1,0 +1,46 @@
+<div class="fixed z-10 flex items-center bottom-2 left-1/2 transform -translate-x-1/2 p-2 bg-white/90 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl">
+  <div class="pl-2 border-r border-zinc-300 flex items-center">
+    <%= @page_title %>
+
+    <.link href="#top" class="mx-2 flex items-center">
+      <.icon name="hero-arrow-up-mini" />
+    </.link>
+  </div>
+
+  <.link class="flex items-center" phx-click="toggle" phx-target="#commands">
+    <.icon name="hero-magnifying-glass-mini" class="mx-2" />
+  </.link>
+</div>
+
+<div class="flex relative w-full py-6">
+  <div
+    id="journals"
+    phx-update="stream"
+    phx-viewport-top={@page > 1 && "prev-page"}
+    phx-viewport-bottom={!@end_of_timeline? && "next-page"}
+    class={[
+      "grow mt-8 px-6 md:max-w-6xl md:mx-auto divide-y divide-solid divide-zinc-300 dark:divide-zinc-700",
+      if(@end_of_timeline?, do: "", else: ""),
+      if(@page == 1, do: "", else: "")
+    ]}
+  >
+    <article
+      :for={{id, {name, _, content}} <- @streams.journals}
+      class="xl:mx-auto prose prose-zinc dark:prose-invert py-8 first:pt-0 break-words hyphens-auto"
+      id={id}
+    >
+      <h1><%= Calendar.strftime(name, "%B %d, %Y") %></h1>
+      <%= raw(content) %>
+    </article>
+
+    <h1 :if={@end_of_timeline?} class="py-10 mt-5 text-center">
+      -fin-
+    </h1>
+  </div>
+  <!-- <a class="block my-4 text-zinc-700 dark:text-zinc-300" href>July 31, 2024</a> -->
+  <div class="w-[200px] ml-[-200px] pr-3 text-right text-zinc-300 dark:text-zinc-700 hidden lg:block">
+    <a :for={{name, _path} <- @journal_index} class="block">
+      <%= Calendar.strftime(name, "%B %d, %Y") %>
+    </a>
+  </div>
+</div>
