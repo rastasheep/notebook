@@ -19,6 +19,7 @@ defmodule NotebookWeb.Router do
 
     get "/", PageController, :home
 
+    live "/journals", JournalLive.Index, :index
     live "/notes/:id", NoteLive.Show, :show
   end
 

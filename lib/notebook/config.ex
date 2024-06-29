@@ -1,6 +1,10 @@
 defmodule Notebook.Config do
   def notes_path() do
-    [notebook_path(), notes_folder()] |> expand_path()
+    [fetch!(:notebook_path), fetch!(:notes_dir)] |> expand_path()
+  end
+
+  def journals_path() do
+    [fetch!(:notebook_path), fetch!(:journals_dir)] |> expand_path()
   end
 
   defp expand_path(path) do
@@ -9,11 +13,7 @@ defmodule Notebook.Config do
     |> Path.expand()
   end
 
-  def notebook_path() do
-    Application.fetch_env!(:notebook, :notebook_path)
-  end
-
-  defp notes_folder() do
-    Application.fetch_env!(:notebook, :notes_folder)
+  defp fetch!(key) do
+    Application.fetch_env!(:notebook, key)
   end
 end
