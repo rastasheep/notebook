@@ -25,11 +25,15 @@
     ]}
   >
     <article
-      :for={{id, {name, _, content}} <- @streams.journals}
+      :for={{id, {date, _, content}} <- @streams.journals}
       class="xl:mx-auto prose prose-zinc dark:prose-invert py-8 first:pt-0 break-words hyphens-auto"
       id={id}
     >
-      <h1><%= Calendar.strftime(name, "%B %d, %Y") %></h1>
+      <h1 class="not-prose">
+        <.link navigate={~p'/journals/#{Date.to_string(date)}'}>
+          <%= Calendar.strftime(date, "%B %d, %Y") %>
+        </.link>
+      </h1>
       <%= raw(content) %>
     </article>
 
@@ -39,8 +43,10 @@
   </div>
   <!-- <a class="block my-4 text-zinc-700 dark:text-zinc-300" href>July 31, 2024</a> -->
   <div class="w-[200px] ml-[-200px] pr-3 text-right text-zinc-300 dark:text-zinc-700 hidden lg:block">
-    <a :for={{name, _path} <- @journal_index} class="block">
-      <%= Calendar.strftime(name, "%B %d, %Y") %>
+    <a :for={{date, _path} <- @journal_index} class="block">
+      <.link navigate={~p'/journals/#{Date.to_string(date)}'}>
+        <%= Calendar.strftime(date, "%B %d, %Y") %>
+      </.link>
     </a>
   </div>
 </div>

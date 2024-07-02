@@ -10,7 +10,7 @@ defmodule NotebookWeb.JournalLive.Index do
      |> assign(:page_title, "Journals")
      |> assign(:infinite, true)
      |> assign(page: 1, per_page: 5)
-     |> stream_configure(:journals, dom_id: fn {name, _, _} -> name end)
+     |> stream_configure(:journals, dom_id: fn {date, _, _} -> date end)
      |> assign(:journal_index, Journals.list_journals())
      |> paginate(1)}
   end
@@ -37,9 +37,9 @@ defmodule NotebookWeb.JournalLive.Index do
 
     journals =
       Enum.slice(journal_index, (new_page - 1) * per_page, per_page)
-      |> Enum.map(fn {name, path} ->
-        content = Journals.get_journal(:html, Journals.get_relative_path(path))
-        {name, path, content}
+      |> Enum.map(fn {date, path} ->
+        {:ok, content} = Journals.get_journal(:html, date)
+        {date, path, content}
       end)
 
     {journals, at, limit} =
