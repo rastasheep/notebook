@@ -2,12 +2,12 @@ defmodule Notebook.FileSystem do
   def read(path) do
     path
     |> ensure_extension(".md")
-    |> File.read!()
+    |> File.read()
   end
 
-  def list(path) do
+  def list(path, glob \\ "**/*.*") do
     path
-    |> Path.join("**/*.*")
+    |> Path.join(glob)
     |> Path.wildcard()
   end
 

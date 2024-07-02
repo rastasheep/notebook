@@ -34,34 +34,41 @@ defmodule Notebook.Journals do
   ## Examples
 
       iex> Journals.get_journal!(:html, '2024_02_06.md')
-      "<h1>Note-content</h1>"
+      {:ok, "<h1>Note-content</h1>"}
 
       iex> Journals.get_journal!('2024_02_06.md')
-      "# Note-content"
+      {:ok, "# Note-content"}
   """
 
-  def get_journal(:html, journal) do
-    get_journal(journal)
-    |> Earmark.as_html!()
+  def get_journal(:html, date) do
+    case get_journal(date) do
+      {:ok, content} -> {:ok, Earmark.as_html!(content)}
+      {:error, error} -> {:error, error}
+    end
   end
 
-  def get_journal(journal) do
+  def get_journal(date) do
     Config.journals_path()
-    |> Path.join(journal)
-    |> FileSystem.read()
+    |> FileSystem.list(Calendar.strftime(date, "{%Y_%m_%d,%Y_%m_%d}.md"))
+    |> case do
+      [file] -> FileSystem.read(file)
+      [] -> {:error, :enoent}
+    end
   end
 
   def get_relative_path(path) do
     Path.relative_to(path, Config.journals_path())
   end
 
-  defp parse_file_name_to_date(file_path) do
-    file_name = Path.basename(file_path, Path.extname(file_path))
-    file_name = String.replace(file_name, "_", "-")
+  def parse_file_name_to_date(file_path) do
+    file_name =
+      file_path
+      |> Path.basename(Path.extname(file_path))
+      |> String.replace("_", "-")
 
     case Date.from_iso8601(file_name) do
       {:ok, date} -> {date, file_path}
-      {:error, :invalid_format} -> {:error}
+      {:error, _} -> {:error}
     end
   end
 

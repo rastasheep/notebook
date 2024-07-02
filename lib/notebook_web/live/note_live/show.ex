@@ -10,9 +10,15 @@ defmodule NotebookWeb.NoteLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:page_title, id)
-     |> assign(:note, Notes.get_note!(:html, id))}
+    case Notes.get_note(:html, id) do
+      {:ok, note} ->
+        {:noreply,
+         socket
+         |> assign(:page_title, id)
+         |> assign(:note, note)}
+
+      {:error, _} ->
+        {:noreply, redirect(socket, to: ~p"/")}
+    end
   end
 end

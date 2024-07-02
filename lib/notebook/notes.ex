@@ -32,18 +32,20 @@ defmodule Notebook.Notes do
   ## Examples
 
       iex> Notes.get_note!(:html, 'index.md')
-      "<h1>Note-content</h1>"
+      {:ok, "<h1>Note-content</h1>"}
 
       iex> Notes.get_note!('index.md')
-      "# Note-content"
+      {:ok, "# Note-content"}
   """
 
-  def get_note!(:html, note) do
-    get_note!(note)
-    |> Earmark.as_html!()
+  def get_note(:html, note) do
+    case get_note(note) do
+      {:ok, content} -> {:ok, Earmark.as_html!(content)}
+      {:error, error} -> {:error, error}
+    end
   end
 
-  def get_note!(note) do
+  def get_note(note) do
     Config.notes_path()
     |> Path.join(note)
     |> FileSystem.read()
