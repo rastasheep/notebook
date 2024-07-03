@@ -30,7 +30,7 @@
       id={id}
     >
       <h1 class="not-prose">
-        <.link navigate={~p'/journals/#{Date.to_string(date)}'}>
+        <.link navigate={~p'/journals/#{date}'}>
           <%= Calendar.strftime(date, "%B %d, %Y") %>
         </.link>
       </h1>
@@ -44,7 +44,7 @@
   <!-- <a class="block my-4 text-zinc-700 dark:text-zinc-300" href>July 31, 2024</a> -->
   <div class="w-[200px] ml-[-200px] pr-3 text-right text-zinc-300 dark:text-zinc-700 hidden lg:block">
     <a :for={{date, _path} <- @journal_index} class="block">
-      <.link navigate={~p'/journals/#{Date.to_string(date)}'}>
+      <.link navigate={~p'/journals/#{date}'}>
         <%= Calendar.strftime(date, "%B %d, %Y") %>
       </.link>
     </a>

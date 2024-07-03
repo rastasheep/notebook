@@ -23,7 +23,8 @@ defmodule NotebookWeb.Commands do
 
   defp editor_commands() do
     [
-      {:nav_away, name: "Clap along", icon: "hero-face-smile"}
+      {:nav_journal, name: "Journals", icon: "hero-book-open"},
+      {:nav_journal_next, name: "Journals › Next", icon: "hero-book-open"}
     ]
   end
 
@@ -38,7 +39,11 @@ defmodule NotebookWeb.Commands do
     push_navigate(socket, to: ~p"/notes/#{context[:name]}")
   end
 
-  def handle_command(:nav_away, _context, socket) do
-    push_navigate(socket, to: ~p"/#away")
+  def handle_command(:nav_journal, _context, socket) do
+    push_navigate(socket, to: ~p"/journals")
+  end
+
+  def handle_command(:nav_journal_next, _context, socket) do
+    push_navigate(socket, to: ~p"/journals/#{Date.utc_today() |> Date.add(1)}")
   end
 end
