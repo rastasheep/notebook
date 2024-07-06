@@ -13,6 +13,9 @@
     <.live_title suffix=" · Phoenix Framework">
       <%= assigns[:page_title] || "Notebook" %>
     </.live_title>
+    <script type="text/javascript">
+      window.EXCALIDRAW_ASSET_PATH = '/';
+    </script>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>

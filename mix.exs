@@ -44,7 +44,7 @@ defmodule Notebook.MixProject do
       {:phoenix_live_view, "~> 0.20.2"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
-      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
+      {:bun, "~> 1.3", only: :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:heroicons,
        github: "tailwindlabs/heroicons",
@@ -73,11 +73,11 @@ defmodule Notebook.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "assets.setup", "assets.build"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind notebook", "esbuild notebook"],
+      "assets.setup": ["tailwind.install --if-missing", "bun.install --if-missing"],
+      "assets.build": ["tailwind notebook", "bun default"],
       "assets.deploy": [
         "tailwind notebook --minify",
-        "esbuild notebook --minify",
+        "bun default --minify",
         "phx.digest"
       ]
     ]
