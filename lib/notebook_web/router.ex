@@ -23,6 +23,8 @@ defmodule NotebookWeb.Router do
     live "/journals/:id", JournalLive.Show, :show
 
     live "/notes/:id", NoteLive.Show, :show
+
+    live "/canvases/:id", CanvasLive.Show, :show
   end
 
   # Other scopes may use custom stacks.

@@ -15,7 +15,7 @@ config :notebook, NotebookWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "GlXPvNKSngRilQVYGoDc4hq8Hqt7irwAxq/8PuAHu7tydDu7Lg1lnsiwu/XIdSI4",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:notebook, ~w(--sourcemap=inline --watch)]},
+    bun: {Bun, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:notebook, ~w(--watch)]}
   ]
 

@@ -24,14 +24,19 @@ config :notebook, NotebookWeb.Endpoint,
   pubsub_server: Notebook.PubSub,
   live_view: [signing_salt: "H2C8qIKt"]
 
-# Configure esbuild (the version is required)
-config :esbuild,
-  version: "0.17.11",
-  notebook: [
-    args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+config :bun,
+  version: "1.1.18",
+  default: [
+    args: ~w(
+    build js/app.js
+    --outdir=../priv/static/assets
+    --external /fonts/*
+    --external /images/*
+    --define process.env.IS_PREACT='false'
+    --define process.env.NODE_ENV='development'
+  ),
     cd: Path.expand("../assets", __DIR__),
-    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+    env: %{}
   ]
 
 # Configure tailwind (the version is required)
