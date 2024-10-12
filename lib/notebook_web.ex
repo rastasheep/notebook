@@ -43,7 +43,7 @@ defmodule NotebookWeb do
         layouts: [html: NotebookWeb.Layouts]
 
       import Plug.Conn
-      import NotebookWeb.Gettext
+      use Gettext, backend: NotebookWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +85,7 @@ defmodule NotebookWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import NotebookWeb.CoreComponents
-      import NotebookWeb.Gettext
+      use Gettext, backend: NotebookWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
