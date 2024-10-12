@@ -1,8 +1,14 @@
 defmodule Notebook.FileSystem do
-  def read(path) do
+  def read(path, default_extension) do
     path
-    |> ensure_extension(".md")
+    |> ensure_extension(default_extension)
     |> File.read()
+  end
+
+  def write(path, content, default_extension) do
+    path
+    |> ensure_extension(default_extension)
+    |> File.write(content)
   end
 
   def list(path, glob \\ "**/*.*") do

@@ -2,6 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@import "./excalidraw.css";
+
 /* regular */
 @font-face {
   font-family: 'iA Writer Duo S';

@@ -1,32 +1,34 @@
-import "phoenix_html"
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
+import "phoenix_html";
+import { Socket } from "phoenix";
+import { LiveSocket } from "phoenix_live_view";
 
-import {Excalidraw} from "./hooks/excalidraw"
+import { ExcalidrawHook as Excalidraw } from "./hooks/excalidraw";
 
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {
-    _csrf_token: document.querySelector("meta[name='csrf-token']").getAttribute("content")
+    _csrf_token: document
+      .querySelector("meta[name='csrf-token']")
+      .getAttribute("content"),
   },
   hooks: {
-    Excalidraw
+    Excalidraw,
   },
   metadata: {
     keydown: (e, el) => {
       return {
         key: e.key,
         metaKey: e.metaKey,
-        repeat: e.repeat
-      }
-    }
-  }
-})
+        repeat: e.repeat,
+      };
+    },
+  },
+});
 
-liveSocket.connect()
+liveSocket.connect();
 
 // expose liveSocket on window for web console debug logs and latency simulation:
 // >> liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
-window.liveSocket = liveSocket
+window.liveSocket = liveSocket;

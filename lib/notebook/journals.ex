@@ -51,7 +51,7 @@ defmodule Notebook.Journals do
     Config.journals_path()
     |> FileSystem.list(Calendar.strftime(date, "{%Y_%m_%d,%Y_%m_%d}.md"))
     |> case do
-      [file] -> FileSystem.read(file)
+      [file] -> FileSystem.read(file, ".md")
       [] -> {:error, :enoent}
     end
   end

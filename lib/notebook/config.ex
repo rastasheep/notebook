@@ -7,6 +7,10 @@ defmodule Notebook.Config do
     [fetch!(:notebook_path), fetch!(:journals_dir)] |> expand_path()
   end
 
+  def canvases_path() do
+    [fetch!(:notebook_path), fetch!(:canvases_dir)] |> expand_path()
+  end
+
   defp expand_path(path) do
     path
     |> Path.join()

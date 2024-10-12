@@ -11,7 +11,8 @@ config :notebook,
   generators: [timestamp_type: :utc_datetime],
   notebook_path: "~/.notebook/default",
   notes_dir: "notes",
-  journals_dir: "journals"
+  journals_dir: "journals",
+  canvases_dir: "canvases"
 
 # Configures the endpoint
 config :notebook, NotebookWeb.Endpoint,

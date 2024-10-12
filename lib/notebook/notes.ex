@@ -31,10 +31,10 @@ defmodule Notebook.Notes do
 
   ## Examples
 
-      iex> Notes.get_note!(:html, 'index.md')
+      iex> Notes.get_note(:html, 'index.md')
       {:ok, "<h1>Note-content</h1>"}
 
-      iex> Notes.get_note!('index.md')
+      iex> Notes.get_note('index.md')
       {:ok, "# Note-content"}
   """
 
@@ -48,6 +48,6 @@ defmodule Notebook.Notes do
   def get_note(note) do
     Config.notes_path()
     |> Path.join(note)
-    |> FileSystem.read()
+    |> FileSystem.read(".md")
   end
 end
