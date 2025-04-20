@@ -8,6 +8,6 @@
     "phoenix_live_view": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@excalidraw/excalidraw": "^0.17.6"
+    "tldraw": "3.3.1"
   }
 }

@@ -26,16 +26,14 @@ config :notebook, NotebookWeb.Endpoint,
   live_view: [signing_salt: "H2C8qIKt"]
 
 config :bun,
-  version: "1.1.18",
+  version: "1.1.22",
   default: [
     args: ~w(
     build js/app.js
     --outdir=../priv/static/assets
-    --external /fonts/*
-    --external /images/*
-    --define process.env.IS_PREACT='false'
-    --define process.env.NODE_ENV='development'
-  ),
+    --define window.Image=window._Image
+    --define window.fetch=window._fetch
+   ),
     cd: Path.expand("../assets", __DIR__),
     env: %{}
   ]

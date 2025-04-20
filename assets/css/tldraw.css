@@ -1,0 +1,27 @@
+.tlui-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.tlui-toolbar {
+  justify-content: start;
+}
+.tlui-toolbar__inner {
+  flex-direction: column;
+}
+.tlui-toolbar__extras {
+  height: auto;
+} 
+.tlui-toolbar__extras__controls {
+  flex-direction: column;
+  margin-left: 0px;
+}
+.tlui-toolbar__lock-button{
+  display: none;
+}
+.tlui-toolbar__tools {
+  flex-direction: column;
+} 
+.tlui-toolbar__tools__list {
+  flex-direction: column;
+}

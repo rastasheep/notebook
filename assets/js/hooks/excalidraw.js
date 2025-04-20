@@ -1,6 +1,7 @@
-import { Excalidraw, MainMenu } from "@excalidraw/excalidraw";
 import { StrictMode, useCallback, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+
+import { Tldraw, setUserPreferences } from 'tldraw'
 
 const debounce = (func, delay) => {
   let timeoutId;
@@ -13,7 +14,7 @@ const debounce = (func, delay) => {
 };
 
 function Component({ canvas, pushEvent }) {
-  const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+  // const [excalidrawAPI, setExcalidrawAPI] = useState(null);
 
   const UIOptions = {
     canvasActions: {
@@ -44,15 +45,22 @@ function Component({ canvas, pushEvent }) {
     handleChange,
   ]);
 
+  setUserPreferences({ colorScheme: 'light', id: 'notebook' })
+
   return (
-    <Excalidraw
-      UIOptions={UIOptions}
-      initialData={canvas}
-      onChange={debouncedHandleChange}
-      excalidrawAPI={(api) => setExcalidrawAPI(api)}
-    >
-      <MainMenu></MainMenu>
-    </Excalidraw>
+    <div style={{ position: 'fixed', inset: 0 }}>
+			<Tldraw forceMobile options={{ maxPages: 1 }} 				onMount={(editor) => {
+					editor.updateInstanceState({ isGridMode: true })
+
+					// [1]
+					editor.sideEffects.registerBeforeChangeHandler('instance', (prev, next) => {
+						if (!next.isGridMode) {
+							return prev
+						}
+						return next
+					})
+				}}/>
+		</div>
   );
 }
 
@@ -82,7 +90,7 @@ export const ExcalidrawHook = {
       </StrictMode>,
     );
   },
-  updated() {
+ updated() {
     this.mounted();
   }
 };

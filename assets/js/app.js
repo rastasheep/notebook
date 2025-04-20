@@ -2,6 +2,10 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 
+// Dirty hack,tldraw is not preserving original references
+window._Image = Image;
+window._fetch = fetch;
+
 import { ExcalidrawHook as Excalidraw } from "./hooks/excalidraw";
 
 let liveSocket = new LiveSocket("/live", Socket, {

@@ -2,7 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import "./excalidraw.css";
+@import "tldraw/tldraw";
+@import "./tldraw.css";
 
 /* regular */
 @font-face {
